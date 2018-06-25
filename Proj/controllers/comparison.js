@@ -4,7 +4,7 @@
 ///////////////////////////////////////////////////
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/spotiWOW');
+mongoose.connect('mongodb://localhost/spotiFeelz');
 // Get Mongoose to use the global promise library
 mongoose.Pormise = global.Promise;
 //Get the default connection

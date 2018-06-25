@@ -1,19 +1,19 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var request = require('request'); // "Request" library
-var querystring = require('querystring');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const request = require('request'); // "Request" library
+const querystring = require('querystring');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
 
-var usersRouter   = require('./routes/users');
-var compRouter    = require('./routes/compare');
-var spotifyRouter = require('./routes/spotify');
+const usersRouter   = require('./routes/users');
+const compRouter    = require('./routes/compare');
+const spotifyRouter = require('./routes/spotify');
 
-var cors = require('cors');
+const cors = require('cors');
 
-var app = express();
+let app = express();
 
 app.use(cors());
 

@@ -244,7 +244,7 @@ router.get('/callback', function(req, res) {
                                 }
                                 else {
                                     console.log('user ' + newUser.name + ' created');
-                                    fs.readFile(__dirname + '/../frontend/src/app/app.component.html', 'utf-8', function(err, data){
+                                    fs.readFile(__dirname + '/../frontend/src/index.html', 'utf-8', function(err, data){
                                         if (err){
                                             console.log(err);
                                             res.status(500).send(err);
@@ -259,7 +259,7 @@ router.get('/callback', function(req, res) {
                         } else {
                             console.log("user " + userResult.name + " database");
                             // the user is in the database!
-                            fs.readFile(__dirname + '/../frontend/src/app/app.component.html', 'utf-8', function(err, data){
+                            fs.readFile(__dirname + '/../frontend/src/index.html', 'utf-8', function(err, data){
                                 if (err){
                                     console.log(err);
                                     res.status(500).send(err);
@@ -267,7 +267,7 @@ router.get('/callback', function(req, res) {
                                     let htmlResponse = appendData(data, userResult);
                                     //res.set('Content-Type', 'text/html');
                                     //res.status(200).send(htmlResponse);
-                                    res.redirect(200, 'http://localhost:4200/')
+                                    res.redirect(200, 'http://localhost:4200/index?uname='+userResult.spot_uname)
                                 }
                             });
                         }
