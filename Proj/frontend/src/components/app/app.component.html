@@ -1,0 +1,18 @@
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<div style="text-align:center">
+
+</div>
+<div *ngIf="!isLoggedIn()" class="col-sm-6 col-sm-offset-3" align="center" style=" margin-top:4em; border-radius:20px;">
+  <h1>
+    {{ title }}!
+  </h1>
+  <button style="border-radius: 12px; height: 100px;width: 300px; background-color: wheat; border-color: black" (click)="onNavigate()">Login</button>
+
+</div>
+<div *ngIf="isLoggedIn()" class="col-sm-6 col-sm-offset-3" align="center" style=" margin-top:4em; border-radius:20px;">
+  <h1>
+    Logged in land
+  </h1>
+</div>

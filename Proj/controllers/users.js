@@ -38,8 +38,8 @@ exports.addUser = function(req, res) {
     })
 };
 
-exports.getUserbyId = function(req, res) {
-    let query = user.findOne({ 'id': req.param('id')});
+exports.getUserbyUname = function(req, res) {
+    let query = user.findOne({ 'spot_uname': req.param('uname')});
     query.exec(function (err, userResult) {
         if (err) return handleError(err);
         res.json (userResult);

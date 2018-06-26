@@ -237,6 +237,7 @@ router.get('/callback', function(req, res) {
                             aUser = new user(
                                 newUser
                             );
+
                             aUser.save(function(createUserError) {
                                 if (createUserError) {
                                     console.log(createUserError);
@@ -265,9 +266,12 @@ router.get('/callback', function(req, res) {
                                     res.status(500).send(err);
                                 } else {
                                     let htmlResponse = appendData(data, userResult);
-                                    //res.set('Content-Type', 'text/html');
+                                    res.set('Content-Type', 'application/json');
                                     //res.status(200).send(htmlResponse);
-                                    res.redirect(200, 'http://localhost:4200/index?uname='+userResult.spot_uname)
+                                    //res.status(200).send(userResult);
+                                    //let existwindow = window.open("",'Spotify');
+                                    //sessionStorage.setItem('spotify-uname', userResult.spot_uname);
+                                    res.redirect('http://localhost:4200/index?uname='+userResult.spot_uname)
                                 }
                             });
                         }
