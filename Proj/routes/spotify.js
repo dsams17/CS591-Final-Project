@@ -68,6 +68,8 @@ router.get('/getplaylists/:myspotify', function(req, res) {
         response1 = body.items[0].href;
         res.json(response1);
 
+
+    })
 });
 
 router.get('/getplaylistcompatability/:myspotify/:theirspotify', function(req, res) {
