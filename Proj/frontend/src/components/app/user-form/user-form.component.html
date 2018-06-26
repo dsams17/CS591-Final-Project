@@ -1,3 +1,10 @@
-<p>
-  user-form works!
-</p>
+<div *ngIf="user">
+  <p>{{user.playlists}} </p>
+  <div *ngIf="user?.playlists.length >">
+    <h1>hI!</h1>
+  </div>
+</div>
+<div>
+  <button style="border-radius: 12px; height: 100px;width: 300px; background-color: wheat; border-color: black" (click)="getUser()">Login</button>
+</div>
+

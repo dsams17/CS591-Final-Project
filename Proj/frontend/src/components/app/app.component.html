@@ -11,6 +11,8 @@
   <button style="border-radius: 12px; height: 100px;width: 300px; background-color: wheat; border-color: black" (click)="onNavigate()">Login</button>
 
 </div>
+<div>
+  <router-outlet></router-outlet>
+</div>
 <div *ngIf="isLoggedIn()" class="col-sm-6 col-sm-offset-3" align="center" style=" margin-top:4em; border-radius:20px;">
-  <app-user-form></app-user-form>
 </div>

@@ -31,6 +31,45 @@ let generateRandomString = function(length) {
 };
 let stateKey = 'spotify_auth_state';
 
+router.get('/getplaylists/:myspotify', function(req, res) {
+    let response1 = "";
+    let response2 = "";
+    const MyID = req.param('myspotify');
+    const TheirID = req.param('theirspotify');
+    let authOptions = {
+        url: 'https://accounts.spotify.com/api/token',
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+        },
+        form: {
+            grant_type: 'client_credentials'
+        },
+        json: true
+    };
+
+    request.post(authOptions, function(error, response, body) {
+        //console.log(body);
+        let token = body.access_token;
+
+
+        // use the access token to access the Spotify Web API
+
+        let options = {
+            url: "https://api.spotify.com/v1/users/"+MyID+"/playlists",
+            headers: {
+
+                "Authorization": 'Bearer ' + token
+
+            },
+            json: true
+
+        };
+        response1 = body.items[0].href;
+        res.json(response1);
+
+});
+
 router.get('/getplaylistcompatability/:myspotify/:theirspotify', function(req, res) {
     let compatibilityNumeral = 0;
     let total = 0;
@@ -271,7 +310,7 @@ router.get('/callback', function(req, res) {
                                     //res.status(200).send(userResult);
                                     //let existwindow = window.open("",'Spotify');
                                     //sessionStorage.setItem('spotify-uname', userResult.spot_uname);
-                                    res.redirect('http://localhost:4200/index?uname='+userResult.spot_uname)
+                                    res.redirect('http://localhost:4200/user/'+userResult.spot_uname)
                                 }
                             });
                         }
