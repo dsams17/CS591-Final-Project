@@ -10,8 +10,14 @@ import {UserObj as User} from "../classes/user-obj";
 })
 export class UserApiService {
 
-  getUser(uname: string): Observable<any>{
-    return this.http.get("http://localhost:3000/users/get/"+uname) };
+  getUser(uname: string): Observable<any> {
+    return this.http.get("http://localhost:3000/users/get/" + uname)
+  };
+
+  getPlaylists(uname: string): Observable<any> {
+    return this.http.get("http://localhost:3000/getplaylists/" + uname)
+  };
+
 
 
   constructor(private http: HttpClient) { }

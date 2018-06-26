@@ -1,10 +1,14 @@
 <div *ngIf="user">
   <p>{{user.playlists}} </p>
-  <div *ngIf="user?.playlists.length >">
-    <h1>hI!</h1>
+  <div *ngIf="user?.playlists.length >0">
+      <select (change)="selectChange($event)">
+        <option>Please Select Playlist</option>
+        <option *ngFor="let playlist of user.playlists" value="{{playlist.href}}">{{playlist.playlistname}}</option>
+      </select>
+    <h1>{{user.playlists[0].playlistname}}</h1>
   </div>
 </div>
 <div>
-  <button style="border-radius: 12px; height: 100px;width: 300px; background-color: wheat; border-color: black" (click)="getUser()">Login</button>
+  <button style="border-radius: 12px; height: 100px;width: 300px; background-color: wheat; border-color: black" (click)="lookupPlaylist()">Lookup Playlist</button>
 </div>
 

@@ -31,11 +31,11 @@ let generateRandomString = function(length) {
 };
 let stateKey = 'spotify_auth_state';
 
+router.get('/getmood/:myspotify')
+
 router.get('/getplaylists/:myspotify', function(req, res) {
     let response1 = "";
-    let response2 = "";
     const MyID = req.param('myspotify');
-    const TheirID = req.param('theirspotify');
     let authOptions = {
         url: 'https://accounts.spotify.com/api/token',
         headers: {
@@ -65,8 +65,22 @@ router.get('/getplaylists/:myspotify', function(req, res) {
             json: true
 
         };
-        response1 = body.items[0].href;
-        res.json(response1);
+        request.get(options, function(error, response, body) {
+
+            let payload = [];
+            response1 = body.items;
+            for(i = 0; i<response1.length; i++){
+                let obj = {
+                    playlistname: response1[i].name,
+                    href: response1[i].href,
+                    feels: []
+                };
+                payload.push(obj);
+            }
+
+        console.log(payload);
+        res.send(payload);
+        })
 
 
     })
