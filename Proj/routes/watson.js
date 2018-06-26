@@ -31,7 +31,7 @@ router.post('/getmood', function(req, res) {
                 scr = r[i].score;
                 if ( scr > max[0]){
                     max[0] = scr;
-                    max[1] = r[1].tone_name;
+                    max[1] = r[i].tone_name;
                 }
             }
 

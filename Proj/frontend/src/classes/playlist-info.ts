@@ -2,14 +2,16 @@ import {PlaylistInfoInterface} from "./playlist-info-interface";
 import {PlaylistFeelsInterface} from "./playlist-feels-interface";
 
 export class PlaylistInfo{
+  id:number;
   playlistname: string;
-  href: string;
-  feels: PlaylistFeelsInterface[];
+  playlistId: string;
+  feels: PlaylistFeelsInterface;
 
-  constructor( playlistname: string = '', href: string = '', feels: PlaylistFeelsInterface[]) {
+  constructor( playlistname: string = '', playlistId: string = "", id: number, feels: PlaylistFeelsInterface ) {
 
+    this.playlistId = playlistId;
     this.playlistname = playlistname;
-    this.href = href;
+    this.id = id;
     this.feels = feels;
   }
 }

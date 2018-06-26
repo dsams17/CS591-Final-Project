@@ -31,7 +31,64 @@ let generateRandomString = function(length) {
 };
 let stateKey = 'spotify_auth_state';
 
-router.get('/getmood/:myspotify')
+router.get('/getmood/:myspotify/:playlistid', function(req, res){
+    let response1 = "";
+    const MyID = req.param('myspotify');
+    const playlistid = req.param('playlistid');
+    let authOptions = {
+        url: 'https://accounts.spotify.com/api/token',
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+        },
+        form: {
+            grant_type: 'client_credentials'
+        },
+        json: true
+    };
+
+    request.post(authOptions, function(error, response, body) {
+        //console.log(body);
+        let token = body.access_token;
+
+
+        // use the access token to access the Spotify Web API
+
+        let options = {
+            url: "https://api.spotify.com/v1/users/"+MyID+"/playlists/"+playlistid,
+            headers: {
+
+                "Authorization": 'Bearer ' + token
+
+            },
+            json: true
+
+        };
+        request.get(options, function(error, response, body) {
+            let payload = "";
+            for(i = 0; i< body.tracks.items.length; i++){
+                payload += body.tracks.items[i].track.name;
+                payload += " ";
+            }
+            console.log(payload);
+
+            let watOptions = {
+                url: "http://localhost:3000/watson/getmood",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                form:{"text":payload}
+            };
+
+            request.post(watOptions, function(error, response, body){
+                res.send(body);
+
+            })
+        })
+
+    })
+
+});
 
 router.get('/getplaylists/:myspotify', function(req, res) {
     let response1 = "";
@@ -69,16 +126,18 @@ router.get('/getplaylists/:myspotify', function(req, res) {
 
             let payload = [];
             response1 = body.items;
+
             for(i = 0; i<response1.length; i++){
                 let obj = {
-                    playlistname: response1[i].name,
-                    href: response1[i].href,
-                    feels: []
+                    id: i,
+                    playlistName: response1[i].name,
+                    playlistId: response1[i].id,
+                    feels: {sentiment:"",gif:""}
                 };
                 payload.push(obj);
             }
 
-        console.log(payload);
+
         res.send(payload);
         })
 
@@ -125,7 +184,7 @@ router.get('/getplaylistcompatability/:myspotify/:theirspotify', function(req, r
 
         request.get(options, function(error, response, body) {
             //console.log(body);
-            //console.log(body.items[0].href);
+            //console.log(body.items[0].id);
             response1 = body.items[0].href;
 
             let options3 = {

@@ -16,8 +16,8 @@ export class UserFormComponent implements OnInit {
   user: User;
 
   //link for currently selected playlist to lookup
-  selectedLink: string;
-
+  selectedPlaylistId: number;
+  selectedPlaylist: PlaylistInfoInterface;
   uname: string;
   private sub: any;
   private yes: boolean;
@@ -59,13 +59,17 @@ export class UserFormComponent implements OnInit {
   }
 
   selectChange(args) {
-    this.selectedLink = args.target.value;
-    console.log(this.selectedLink);
+    console.log(this.user.playlists[0]);
+    this.selectedPlaylistId = args.target.value;
+    this.selectedPlaylist = this.user.playlists[this.selectedPlaylistId];
+    console.log(this.selectedPlaylistId);
+    console.log(this.selectedPlaylist);
   }
 
-  lookupPlaylist(){
-    this.service.lookupPlaylist(this.selectedLink).subscribe(thing =>
-      console.log(thing));
+  calculatePlaylist(){
+    this.service.lookupPlaylist(this.uname, this.selectedPlaylist.playlistId).subscribe(thing =>
+      this.user.playlists[this.selectedPlaylistId].feels.sentiment = thing)
+
   }
 
   isYes() {
