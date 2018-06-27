@@ -40,10 +40,27 @@ router.post("/addPlaylistComp", function(req, res) {
     let aPlaylist = new playlist(
         req.body
     );
-    aPlaylist.save(function(err) {
-        if (err) {res.send(err); }
-        else {res.send (aPlaylist)}
+    let query = playlist.findOne({ 'playlistId': aPlaylist.playlistId});
+    query.exec(function (err, playlistResult) {
+        //console.log(playlistResult);
+        if (err){
+            console.log("ERROR");
+            return handleError(err);
+        }
+        if (!playlistResult){
+            aPlaylist.save(function(err) {
+                if (err) {res.send(err); }
+                else {res.send (aPlaylist)}
+            })
+        } else {
+            query = playlistResult.update({gif: aPlaylist.gif, feels: aPlaylist.feels});
+            query.exec(function(err, Res) {
+                if (err) {res.send(err); }
+                else {res.send (Res)}
+            })
+        }
     })
+
 });
 
 router.get("/getPlaylistCompById/:playlistid", function(req, res) {
