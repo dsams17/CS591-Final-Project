@@ -119,13 +119,14 @@ router.get('/getmood/:myspotify/:playlistid', function(req, res){
 
             request.post(watOptions, function(error, response, body){
                 let feel = JSON.parse(body);
+                console.log(body);
                 let giphyOptions = {
                     url: 'https://api.giphy.com/v1/gifs/search?api_key='+config.giphy.apikey+'&q='+feel
                 };
                 request.get(giphyOptions, function (error, response, body) {
                     let jason = JSON.parse(body);
 
-                    let gif = jason.data[Math.floor((Math.random() * 5) + 1)].images.original.url;
+                    let gif = jason.data[Math.floor((Math.random() * 25) + 1)].images.original.url;
                     let dbOptions = {
                         url: "http://localhost:3000/addPlaylistComp",
                         headers: {

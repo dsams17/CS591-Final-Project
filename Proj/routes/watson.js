@@ -25,19 +25,25 @@ router.post('/getmood', function(req, res) {
         if (error) {
             res.send(error);
         } else {
+            console.log(analysis);
             let r = analysis.document_tone.tones;
-            max = [0, ""];
-            for(i = 0; i < r.length; i++){
-                scr = r[i].score;
-                if ( scr > max[0]){
-                    max[0] = scr;
-                    max[1] = r[i].tone_name;
+            if (r.length > 0) {
+                max = [0, ""];
+                for (i = 0; i < r.length; i++) {
+                    scr = r[i].score;
+                    if (scr > max[0]) {
+                        max[0] = scr;
+                        max[1] = r[i].tone_name;
+                    }
                 }
+                res.json(max[1]);
+            } else {
+                res.json("Sloth")
             }
 
 
             //let l = r.document_tone[0];
-            res.json(max[1]);
+
         }
     });
      });
