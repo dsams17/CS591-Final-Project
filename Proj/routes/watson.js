@@ -18,8 +18,8 @@ router.post('/getmood', function(req, res) {
         'sentences': false
 
     };
-    console.log(toneAnalyzer);
-    console.log(toneParams);
+    //console.log(toneAnalyzer);
+    //console.log(toneParams);
 
     toneAnalyzer.tone(toneParams, function (error, analysis) {
         if (error) {

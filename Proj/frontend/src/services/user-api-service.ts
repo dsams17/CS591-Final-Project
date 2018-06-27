@@ -22,5 +22,8 @@ export class UserApiService {
     return this.http.get("http://localhost:3000/getmood/"+uname+"/"+playlistId)
   }
 
+  lookupPrevCalc(playlistId:string): Observable<any>{
+    return this.http.get("http://localhost:3000/findpastlookup/"+playlistId)
+  }
   constructor(private http: HttpClient) { }
 }

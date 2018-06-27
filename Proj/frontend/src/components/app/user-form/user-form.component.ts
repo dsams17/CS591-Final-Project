@@ -66,21 +66,18 @@ export class UserFormComponent implements OnInit {
     console.log(this.selectedPlaylist);
   }
 
-  calculatePlaylist(){
+  lookupPlaylistMood(){
+    this.service.lookupPrevCalc(this.selectedPlaylist.playlistId).subscribe(thing =>
+      console.log(thing))
+  }
+
+  calculatePlaylist() {
     this.service.lookupPlaylist(this.uname, this.selectedPlaylist.playlistId).subscribe(thing =>
-      this.user.playlists[this.selectedPlaylistId].feels.sentiment = thing)
+      this.user.playlists[this.selectedPlaylistId].feels = {
+        sentiment: thing['feel'], gif: thing['gif']
+      });
 
-  }
 
-  isYes() {
-    return this.yes;
-  }
-
-  getUser() {
-
-    console.log(this.user);
-  }
-
-  getSpot() {
   }
 }
+

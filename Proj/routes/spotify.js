@@ -70,7 +70,7 @@ router.get('/getmood/:myspotify/:playlistid', function(req, res){
                 payload += body.tracks.items[i].track.name;
                 payload += " ";
             }
-            console.log(payload);
+            //console.log(payload);
 
             let watOptions = {
                 url: "http://localhost:3000/watson/getmood",
@@ -81,7 +81,16 @@ router.get('/getmood/:myspotify/:playlistid', function(req, res){
             };
 
             request.post(watOptions, function(error, response, body){
-                res.send(body);
+                let feel = JSON.parse(body);
+                let giphyOptions = {
+                    url: 'https://api.giphy.com/v1/gifs/search?api_key='+config.giphy.apikey+'&q='+feel
+                };
+                request.get(giphyOptions, function (error, response, body) {
+                    let jason = JSON.parse(body);
+                    console.log(jason);
+                    res.send({feel:feel ,gif: jason.data[0].images.original.url});
+                })
+
 
             })
         })
