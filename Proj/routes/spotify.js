@@ -11,6 +11,25 @@ const config = require("./config/config");
 
 const user = mongoose.model('user');
 
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/spotiFeelz');
+// Get Mongoose to use the global promise library
+mongoose.Pormise = global.Promise;
+//Get the default connection
+const db = mongoose.connection;
+//Bind connection to error event (to get notification of connection errors)
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+const Schema = mongoose.Schema;
+
+const playlistSchema = new Schema ({
+    spot_uname: {type: String, required: true, unique: true},
+    playlistId: {type: String, required: true, unique: true},
+    name: String,
+});
+
+const playlist = mongoose.model('playlist', playlistSchema);
+
 const client_id = config.spotify.client_id; // Your client id
 const client_secret = config.spotify.client_secret; // Your secret
 const redirect_uri = config.spotify.callback; // Your redirect uri
@@ -154,131 +173,6 @@ router.get('/getplaylists/:myspotify', function(req, res) {
     })
 });
 
-router.get('/getplaylistcompatability/:myspotify/:theirspotify', function(req, res) {
-    let compatibilityNumeral = 0;
-    let total = 0;
-    let compDict = {};
-    let response1 = "";
-    let response2 = "";
-    const MyID = req.param('myspotify');
-    const TheirID = req.param('theirspotify');
-    let authOptions = {
-        url: 'https://accounts.spotify.com/api/token',
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
-        },
-        form: {
-            grant_type: 'client_credentials'
-        },
-        json: true
-    };
-    request.post(authOptions, function(error, response, body) {
-        //console.log(body);
-        let token = body.access_token;
-
-
-        // use the access token to access the Spotify Web API
-
-        let options = {
-            url: "https://api.spotify.com/v1/users/"+MyID+"/playlists?limit=1",
-            headers: {
-
-                "Authorization": 'Bearer ' + token
-
-            },
-            json: true
-
-        };
-
-        request.get(options, function(error, response, body) {
-            //console.log(body);
-            //console.log(body.items[0].id);
-            response1 = body.items[0].href;
-
-            let options3 = {
-                url: response1,
-                json: true,
-                headers: {
-                    ///"Content-Type": "application/json",
-                    "Authorization": "Bearer " + token
-                    //"Accept": "application/json"
-                }
-
-            };
-
-            request.get(options3, function(error, response, body) {
-                //console.log(response1+"?fields=items(track(artists,name))");
-                let Jbody =JSON.parse(JSON.stringify(body));
-                //console.log(Jbody);
-                //console.log(Jbody.tracks.items[0].track.artists[0].name);
-                for(var key in Jbody.tracks.items){
-                    total++;
-                    compDict[Jbody.tracks.items[key].track.name] = Jbody.tracks.items[key].track.artists[0].name;
-                }
-                //console.log(compDict);
-
-                let options2 = {
-                    url: "https://api.spotify.com/v1/users/"+TheirID+"/playlists?limit=1",
-                    headers: {
-                        //"Content-Type": "application/json",
-                        "Authorization": "Bearer " + token
-                        //"Accept": "application/json"
-                    },
-                    json:true
-                };
-                request.get(options2, function(error, response, body) {
-
-                    response2 = body.items[0].href;
-
-
-                    let options4 = {
-                        url: response2,
-                        json: true,
-                        headers: {
-                            //"Content-Type": "application/json",
-                            "Authorization": "Bearer " + token
-                            //"Accept": "application/json"
-                        }
-
-                    };
-
-                    request.get(options4, function(error, response, body) {
-                        let Jbody =JSON.parse(JSON.stringify(body));
-                        //console.log(compDict);
-                        for(var key in Jbody.tracks.items){
-                            if (Jbody.tracks.items[key].track.name in compDict){
-                                if (Jbody.tracks.items[key].track.artists[0].name === compDict[Jbody.tracks.items[key].track.name]){
-
-                                    compatibilityNumeral++;
-                                }
-                            }
-                        }
-                        res.json((compatibilityNumeral/total)*100);
-                        //response.send((total/compatibilityNumeral)*100);
-                    });
-
-
-                });
-            });
-
-
-        });
-
-
-
-
-
-
-
-
-    });
-
-
-    console.log(compatibilityNumeral);
-
-});
-
 
 router.get('/login', function(req, res) {
 
@@ -373,9 +267,7 @@ router.get('/callback', function(req, res) {
                                             console.log(err);
                                             res.status(500).send(err);
                                         } else {
-                                            let htmlResponse = appendData(data, aUser);
-                                            res.set('Content-Type', 'text/html');
-                                            res.status(200).send(htmlResponse);
+                                            res.redirect('http://localhost:4200/user/'+newUser.spot_uname)
                                         }
                                     });
                                 }
@@ -388,12 +280,6 @@ router.get('/callback', function(req, res) {
                                     console.log(err);
                                     res.status(500).send(err);
                                 } else {
-                                    let htmlResponse = appendData(data, userResult);
-                                    res.set('Content-Type', 'application/json');
-                                    //res.status(200).send(htmlResponse);
-                                    //res.status(200).send(userResult);
-                                    //let existwindow = window.open("",'Spotify');
-                                    //sessionStorage.setItem('spotify-uname', userResult.spot_uname);
                                     res.redirect('http://localhost:4200/user/'+userResult.spot_uname)
                                 }
                             });
