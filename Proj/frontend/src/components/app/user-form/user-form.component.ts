@@ -55,6 +55,10 @@ export class UserFormComponent implements OnInit {
   }
 
   selectChange(args) {
+    if(this.selectedPlaylist) {
+      this.selectedPlaylist.feels.sentiment = "";
+      this.selectedPlaylist.feels.gif = "";
+    }
     console.log(this.user.playlists[0]);
     this.selectedPlaylistId = args.target.value;
     this.selectedPlaylist = this.user.playlists[this.selectedPlaylistId];
