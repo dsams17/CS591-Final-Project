@@ -11,7 +11,6 @@ const config = require("./config/config");
 
 const user = mongoose.model('user');
 
-const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/spotiFeelz');
 // Get Mongoose to use the global promise library
 mongoose.Pormise = global.Promise;
@@ -22,23 +21,39 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 const Schema = mongoose.Schema;
 
-const playlistSchema = new Schema ({
-    spot_uname: {type: String, required: true, unique: true},
+const playlistCompSchema = new Schema ({
+    spot_uname: {type: String, required: true},
     playlistId: {type: String, required: true, unique: true},
     name: String,
+    feels: String,
+    gif: String,
 });
 
-const playlist = mongoose.model('playlist', playlistSchema);
+const playlist = mongoose.model('playlist', playlistCompSchema);
 
 const client_id = config.spotify.client_id; // Your client id
 const client_secret = config.spotify.client_secret; // Your secret
 const redirect_uri = config.spotify.callback; // Your redirect uri
 
-/**
- * Generates a random string containing numbers and letters
- * @param  {number} length The length of the string
- * @return {string} The generated string
- */
+
+router.post("/addPlaylistComp", function(req, res) {
+    let aPlaylist = new playlist(
+        req.body
+    );
+    aPlaylist.save(function(err) {
+        if (err) {res.send(err); }
+        else {res.send (aPlaylist)}
+    })
+});
+
+router.get("/getPlaylistCompById/:playlistid", function(req, res) {
+    let query = user.findOne({ 'playlistId': req.param('playlistid')});
+    query.exec(function (err, userResult) {
+        if (err) return handleError(err);
+        res.json (userResult);
+    })
+});
+
 let generateRandomString = function(length) {
     let text = '';
     let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -51,7 +66,6 @@ let generateRandomString = function(length) {
 let stateKey = 'spotify_auth_state';
 
 router.get('/getmood/:myspotify/:playlistid', function(req, res){
-    let response1 = "";
     const MyID = req.param('myspotify');
     const playlistid = req.param('playlistid');
     let authOptions = {
@@ -106,8 +120,30 @@ router.get('/getmood/:myspotify/:playlistid', function(req, res){
                 };
                 request.get(giphyOptions, function (error, response, body) {
                     let jason = JSON.parse(body);
-                    console.log(jason);
-                    res.send({feel:feel ,gif: jason.data[Math.floor((Math.random() * 10) + 1)].images.original.url});
+
+                    let gif = jason.data[Math.floor((Math.random() * 5) + 1)].images.original.url;
+                    let dbOptions = {
+                        url: "http://localhost:3000/addPlaylistComp",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        form:{spot_uname: MyID,
+                            playlistId: playlistid,
+                            name: "",
+                            feels: feel,
+                            gif: gif,}
+                    };
+                    res.send({feel: feel, gif: gif});
+
+                    request.post(dbOptions, function (error, response, body) {
+                        if(error){
+                            console.log("Adding to DB was unsuccessful")
+                        }
+                        else{
+
+                        }
+
+                    });
                 })
 
 
