@@ -1,5 +1,5 @@
 <div *ngIf="user">
-  <h1 style="text-align: center"> Welcome {{user.name}}! </h1>
+  <h1 style="text-align: center; color: bisque; text-shadow:black 1px 1px; "> Welcome {{user.name}}! </h1>
   <div style="text-align: center; width: 800px;margin: 0 auto;" *ngIf="user?.playlists.length >0">
       <select (change)="selectChange($event)">
         <option>Please Select Playlist</option>

@@ -21,7 +21,8 @@ export class AppComponent implements OnInit{
     document.body.classList.add('bg-img');
   }
   loggedin = false;
-  title = 'Welcome to the playlist mood analyzer. Please login to continue';
+
+  title = 'Welcome to the Spotify-Playlist-Mood-Analyzer(™™™). Please login to continue';
 
   isLoggedIn(){
     return window.sessionStorage.getItem("loggedin") !== null;
