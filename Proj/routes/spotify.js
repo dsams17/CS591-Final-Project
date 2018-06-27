@@ -49,7 +49,7 @@ router.post("/addPlaylistComp", function(req, res) {
 router.get("/getPlaylistCompById/:playlistid", function(req, res) {
     let query = playlist.findOne({ 'playlistId': req.param('playlistid')});
     query.exec(function (err, playlistResult) {
-        console.log(err);
+        console.log(playlistResult);
         if (err){
             console.log("ERROR");
             return handleError(err);

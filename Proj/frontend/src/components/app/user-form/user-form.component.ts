@@ -59,7 +59,7 @@ export class UserFormComponent implements OnInit {
     this.selectedPlaylistId = args.target.value;
     this.selectedPlaylist = this.user.playlists[this.selectedPlaylistId];
     console.log(this.selectedPlaylistId);
-    console.log(this.selectedPlaylist);
+    console.log(this.selectedPlaylist.playlistId);
   }
 
   lookupPlaylistMood(){
@@ -68,7 +68,8 @@ export class UserFormComponent implements OnInit {
     {if(thing){
       this.user.playlists[this.selectedPlaylistId].feels = {
         sentiment: thing['feels'], gif: thing['gif']
-      }
+      };
+      console.log(this.user.playlists[this.selectedPlaylistId].feels);
     }else{
       this.error = "No mood analysis has been run yet. Please run a new calculation of this playlist first."
     }

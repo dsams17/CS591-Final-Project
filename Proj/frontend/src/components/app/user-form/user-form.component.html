@@ -16,7 +16,7 @@
   <button style="border-radius: 12px; height: 100px;width: 300px; background-color: wheat; border-color: black" (click)="calculatePlaylist()">Calculate Playlist Mood</button>
 </div>
 
-<div *ngIf="user?.playlists[this.selectedPlaylistId]?.feels?.sentiment.length >0">
+<div *ngIf="user?.playlists[this.selectedPlaylistId]?.feels?.sentiment?.length >0">
   <h1 style="text-align: center; color: bisque; text-shadow:black 1px 1px;">
     Overarching Playlist Feeling: {{user.playlists[this.selectedPlaylistId].feels.sentiment}}
   </h1>
