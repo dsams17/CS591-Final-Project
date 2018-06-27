@@ -21,11 +21,12 @@ export class UserFormComponent implements OnInit {
   uname: string;
   private sub: any;
   private yes: boolean;
+  error: string;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private service: UserApiService) {
-
+    this.error = '';
   }
 
 
@@ -67,11 +68,20 @@ export class UserFormComponent implements OnInit {
   }
 
   lookupPlaylistMood(){
+    this.error ="";
     this.service.lookupPrevCalc(this.selectedPlaylist.playlistId).subscribe(thing =>
-      console.log(thing))
-  }
+    {if(thing){
+      this.user.playlists[this.selectedPlaylistId].feels = {
+        sentiment: thing['feels'], gif: thing['gif']
+      }
+    }else{
+      this.error = "No mood analysis has been run yet. Please run a new calculation of this playlist first."
+    }
+
+  })};
 
   calculatePlaylist() {
+    this.error="";
     this.service.lookupPlaylist(this.uname, this.selectedPlaylist.playlistId).subscribe(thing =>
       this.user.playlists[this.selectedPlaylistId].feels = {
         sentiment: thing['feel'], gif: thing['gif']

@@ -23,7 +23,7 @@ export class UserApiService {
   }
 
   lookupPrevCalc(playlistId:string): Observable<any>{
-    return this.http.get("http://localhost:3000/findpastlookup/"+playlistId)
+    return this.http.get("http://localhost:3000/getPlaylistCompById/"+playlistId)
   }
   constructor(private http: HttpClient) { }
 }

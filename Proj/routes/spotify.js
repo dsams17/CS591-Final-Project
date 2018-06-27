@@ -47,10 +47,14 @@ router.post("/addPlaylistComp", function(req, res) {
 });
 
 router.get("/getPlaylistCompById/:playlistid", function(req, res) {
-    let query = user.findOne({ 'playlistId': req.param('playlistid')});
-    query.exec(function (err, userResult) {
-        if (err) return handleError(err);
-        res.json (userResult);
+    let query = playlist.findOne({ 'playlistId': req.param('playlistid')});
+    query.exec(function (err, playlistResult) {
+        console.log(err);
+        if (err){
+            console.log("ERROR");
+            return handleError(err);
+        }
+        res.json (playlistResult);
     })
 });
 
