@@ -9,15 +9,20 @@
     <h1>{{user.playlists[0].playlistname}}</h1>
   </div>
 </div>
+<br/>
+<br/>
 <div style="text-align: center; width: 800px;margin: 0 auto;">
   <button style="border-radius: 12px; height: 100px;width: 300px; background-color: wheat; border-color: black" (click)="lookupPlaylistMood()">Lookup Previous Mood</button>
   <button style="border-radius: 12px; height: 100px;width: 300px; background-color: wheat; border-color: black" (click)="calculatePlaylist()">Calculate Playlist Mood</button>
 </div>
 
-<div class="center" *ngIf="user?.playlists[this.selectedPlaylistId]?.feels?.sentiment.length >0">
-  <h1 style="text-align: center">
-    {{user.playlists[this.selectedPlaylistId].feels.sentiment}}
+<div *ngIf="user?.playlists[this.selectedPlaylistId]?.feels?.sentiment.length >0">
+  <h1 style="text-align: center; color: bisque; text-shadow:black 1px 1px;">
+    Overarching Playlist Feeling: {{user.playlists[this.selectedPlaylistId].feels.sentiment}}
   </h1>
-  <img style="alignment: center" src="{{user.playlists[this.selectedPlaylistId].feels.gif}}">
+  <img style="display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;" src="{{user.playlists[this.selectedPlaylistId].feels.gif}}">
 </div>
 
