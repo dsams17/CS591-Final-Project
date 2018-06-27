@@ -8,7 +8,6 @@ const logger = require('morgan');
 
 
 const usersRouter   = require('./routes/users');
-const compRouter    = require('./routes/compare');
 const spotifyRouter = require('./routes/spotify');
 const watsonRouter = require('./routes/watson');
 
@@ -32,7 +31,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //api's
 app.use('/users', usersRouter);
-app.use('/comparisons', compRouter);
 app.use('/', spotifyRouter);
 app.use('/watson', watsonRouter);
 

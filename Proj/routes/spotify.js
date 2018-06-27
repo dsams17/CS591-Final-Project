@@ -88,7 +88,7 @@ router.get('/getmood/:myspotify/:playlistid', function(req, res){
                 request.get(giphyOptions, function (error, response, body) {
                     let jason = JSON.parse(body);
                     console.log(jason);
-                    res.send({feel:feel ,gif: jason.data[0].images.original.url});
+                    res.send({feel:feel ,gif: jason.data[Math.floor((Math.random() * 10) + 1)].images.original.url});
                 })
 
 
