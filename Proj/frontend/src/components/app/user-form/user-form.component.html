@@ -1,4 +1,5 @@
 <div *ngIf="user">
+  <button style="border-radius: 12px; height: 50px;width: 150px; position: absolute; right: 50px; background-color: wheat; border-color: black" (click)="logoutSpotify()">Logout</button>
   <h1 style="text-align: center; color: bisque; text-shadow:black 1px 1px; "> Welcome {{user.name}}! </h1>
   <div style="text-align: center; width: 800px;margin: 0 auto;" *ngIf="user?.playlists.length >0">
       <select (change)="selectChange($event)">

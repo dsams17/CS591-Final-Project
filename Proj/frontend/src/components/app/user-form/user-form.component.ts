@@ -66,6 +66,14 @@ export class UserFormComponent implements OnInit {
     console.log(this.selectedPlaylist.playlistId);
   }
 
+  logoutSpotify(){
+    let logout = window.open('https://spotify.com/us/logout/',
+      'Spotify Logout',
+      'menubar=no,location=no,resizable=yes,scrollbars=yes,status=no,width=100,height=100,top=300,right=300');
+    logout.close();
+    window.location.href="http://127.0.0.1:4200/index";
+  }
+
   lookupPlaylistMood(){
     this.error ="";
     this.service.lookupPrevCalc(this.selectedPlaylist.playlistId).subscribe(thing =>
