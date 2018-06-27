@@ -1,1 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
+.bg-img
+{
+  background-image: url('/assets/images/abstract-art-background-370799.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+}

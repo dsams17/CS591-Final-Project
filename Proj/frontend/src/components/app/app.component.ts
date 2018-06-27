@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserApiService } from "../../services/user-api-service";
 
 
@@ -16,7 +16,10 @@ import {from} from 'rxjs';
 })
 
 
-export class AppComponent {
+export class AppComponent implements OnInit{
+  ngOnInit(): void {
+    document.body.classList.add('bg-img');
+  }
   loggedin = false;
   title = 'Welcome to the playlist mood analyzer. Please login to continue';
 

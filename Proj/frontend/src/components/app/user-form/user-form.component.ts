@@ -31,17 +31,12 @@ export class UserFormComponent implements OnInit {
 
 
   ngOnInit() {
+    document.body.classList.add('bg-img');
+
     this.sub = this.route.params.subscribe(params => {
       this.uname = params['id'];
     });
 
-    /*this.service.getUser(this.uname).subscribe(thing =>
-      this.user$ = {playlists:[],spotid: thing['spot_uname'],name:thing['name']
-      }
-    );
-
-    // In a real app: dispatch action to load the details here.
-  });*/
     this.route.paramMap.pipe(
       switchMap((params: ParamMap) =>
         this.service.getUser(params.get("id")))
